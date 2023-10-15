@@ -6,34 +6,34 @@ var app = express()
 app.use(express.json())//specifichiamo che i messaggi verranno spediti in JSON
 
 
-var allowlist = ['http://example1.com', 'http://example2.com', 'localhost']
+//https://stackoverflow.com/questions/18310394/no-access-control-allow-origin-node-apache-port-issue
 
-var corsOptionsDelegate = function (req, callback) {
+// Aggiungi gli header prima delle configurazione delle route
+app.use(function (req, res, next) {
 
-    var corsOptions;//i valori salvati della cors
+    // Siti che hanno il consnenso di connettersi
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
 
-    //console.log(req.header('Origin'))
-    if (allowlist.indexOf(req.header('Origin')) !== -1) {
-        corsOptions = {
-            origin: true,
-            methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
-            headers: ['Content-Type', 'token'],
-        } // reflect (enable) the requested origin in the CORS response
-    } else {
-        corsOptions = { origin: false } // disable CORS for this request
-        callback('Not allowed by cors')
-    }
-    //console.log(corsOptions)
-    callback(null, corsOptions) // callback expects two parameters: error and options
-}
+    // Metodi che possono essere effettuati (per il preflight di cors)
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
+    // Header che possono essere utilizzati
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,token');
+
+    //Per utilizzo di cookie
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Prossimo middleware
+    next();
+});
 
 //app.options('*', cors(corsOptionsDelegate))
 //app.options("/", cors(corsOptionsDelegate));
 
-app.get('/', cors(corsOptionsDelegate), function (req, res, next) {
-    console.log(corsOptionsDelegate)
-    res.json({ msg: 'This is CORS-enabled for an allowed domain.' })
+app.get('/', function (req, res, next) {
+    console.log("corsOptionsDelegate")
+    res.json({ msg: 'This is CORS-enabled for an allowed domain.',
+            token: req.headers.token })
 })
 
 
