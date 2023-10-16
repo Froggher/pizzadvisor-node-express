@@ -1,9 +1,11 @@
-var express = require('express')
-var cors = require('cors')
+import express, { json } from 'express';
+import cors from 'cors';
+import { mariaConnection } from './TestDatabase/TestDatabase.js';
+
 var app = express()
 
 
-app.use(express.json())//specifichiamo che i messaggi verranno spediti in JSON
+app.use(json())//specifichiamo che i messaggi verranno spediti in JSON
 
 
 //https://stackoverflow.com/questions/18310394/no-access-control-allow-origin-node-apache-port-issue
@@ -31,15 +33,18 @@ app.use(function (req, res, next) {
 //app.options("/", cors(corsOptionsDelegate));
 
 app.get('/', function (req, res, next) {
-    console.log("corsOptionsDelegate")
-    res.json({ msg: 'This is CORS-enabled for an allowed domain.',
-            token: req.headers.token })
+    res.send({
+        message: 'Questo é un test',
+        token: req.headers.token
+    })
 })
+
+
+app.get('/db', mariaConnection)
+
 
 
 app.listen(5445, function () {
     console.log('CORS-enabled web server listening on port 5445')
 })
 
-
-console.log("hello world")
