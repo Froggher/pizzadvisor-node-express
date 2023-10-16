@@ -2,6 +2,7 @@ import express, { json } from 'express';
 import cors from 'cors';
 import { mariaConnection } from './TestDatabase/TestDatabase.js';
 import { Login } from './UserArea/Login.js';
+import { SignUp } from './UserArea/SignUp.js';
 
 var app = express()
 
@@ -43,6 +44,7 @@ app.get('/', function (req, res, next) {
 
 app.get('/db', mariaConnection)
 app.post('/login', Login)
+app.post('/user/signup', SignUp)
 
 
 
