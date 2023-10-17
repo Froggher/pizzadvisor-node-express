@@ -2,7 +2,7 @@
 export async function DatabaseConnection(res, pool) {
     try {
         const conn = await pool.getConnection();
-        console.log(conn)
+        //console.log(conn)
         return conn;
     } catch (err) {
         console.error('Errore nella connessione al database:', err);

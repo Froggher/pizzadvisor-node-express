@@ -1,4 +1,4 @@
-import { pool } from "../config.js";
+import { pool } from "../misc/config.js";
 
 
 export async function mariaConnection(req, res, next) {

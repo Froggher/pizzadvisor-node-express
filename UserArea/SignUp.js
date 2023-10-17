@@ -1,4 +1,4 @@
-import { pool } from "../config.js";
+import { pool } from "../misc/config.js";
 import { DatabaseConnection } from "../misc/Fun.js";
 
 
@@ -11,7 +11,7 @@ export async function SignUp(req, res, next) {
         conn = await DatabaseConnection(res, pool);
         await SignUpPost(req, res, conn)
     } catch (error) {
-        console.log('Qualcosa é andato con la creazione account')
+        console.log('Qualcosa é andato storto con la creazione account')
     } finally {
         if (conn) return conn.end();
     }
