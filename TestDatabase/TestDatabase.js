@@ -5,10 +5,7 @@ export async function mariaConnection(req, res, next) {
     let conn;
     try {
         conn = await pool.getConnection();
-        const rows = await conn.query('SELECT Column1 FROM Esempio.datibellissimi;');
-        console.log(rows); //[ {val: 1}, meta: ... ]
-        //const res = await conn.query("INSERT INTO myTable value (?, ?)", [1, "mariadb"]);
-        //console.log(res); // { affectedRows: 1, insertId: 1, warningStatus: 0 }
+        
         res.status(200).send({ message: 'ciao', });
     } catch (err) {
         console.error('Errore nella connessione al database:', err);

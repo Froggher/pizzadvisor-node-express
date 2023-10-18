@@ -1,5 +1,8 @@
 import { pool } from "../misc/config.js";
 import { DatabaseConnection } from "../misc/Fun.js";
+import bcrypt from 'bcryptjs';
+import jwt from "jsonwebtoken";
+import 'dotenv/config'
 
 export async function Login(req, res, next) {
 
@@ -8,8 +11,9 @@ export async function Login(req, res, next) {
 
     try {
         conn = await DatabaseConnection(res, pool);
-        const results = await LoginCheckDatabase(req, res, conn)
-        console.log(results)
+        const results = await loginSelectDatabase(req, res, conn);
+        await passordCheck(req, res, conn, results);
+        tokenSign(req, res, conn, results);
     } catch (error) {
         console.log('Qualcosa é andato storto con il login')
     } finally {
@@ -19,7 +23,47 @@ export async function Login(req, res, next) {
 
 }
 
-async function LoginCheckDatabase(req, res, conn){
+async function tokenSign(req, res, conn, results) {
+    try {
+        // Viene generato il token con all'interno firmata anche la email dell'utente
+        // Per la creazione viene utilizzato JWT_SECRET e JWT_EXPIRES_IN
+        const token = jwt.sign({
+            email: results.email
+        },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN }
+        );
+        res.status(200).send({
+            message: 'Login effettuato con successo',
+            data: token
+        });
+    } catch (err) {
+        console.error('Errore creazione token', err);
+        res.status(500).send({ message: 'Errore creazione token', });
+        throw Error;
+    }
+}
+
+
+
+async function passordCheck(req, res, conn, results) {
+    const { email, psw } = req.body
+    try {
+        // Qui controlliamo se la password inviata dall'utente corrisponde a quella contenuta nel database(hash)
+        const checkedPsw = await bcrypt.compare(psw, results.psw);
+        if (!checkedPsw) {
+            res.status(401).send({ message: 'Password errata', });
+            throw Error;
+        }
+    } catch (err) {
+        console.error('Errore controllo password', err);
+        res.status(500).send({ message: 'Errore controllo password', });
+        throw Error;
+    }
+}
+
+
+async function loginSelectDatabase(req, res, conn) {
     const { email, psw } = req.body
     try {
         const results = await conn.query("SELECT email, psw, first_name, last_name FROM `User`.`User` WHERE email = ?;", [email]);
@@ -27,20 +71,12 @@ async function LoginCheckDatabase(req, res, conn){
         // In caso il risultato della query è undefined la email non è presente nel sitema
         if (!results[0]) {
             res.status(400).send({ message: 'Email non trovata, effettuare prima la registrazione', });
-            throw Error
+            throw Error;
         }
-        // res.status(200).send({
-        //     message: 'Account trovato con successo'
-        // });
         return results[0]
     } catch (err) {
         console.error('Errore login:', err);
-        // Se l'errore riportato dal database corrisponde a 1062 significa che c'é un valore duplicato per la email
-        // if (err.errno === 1062) {
-        //     res.status(409).send({ message: 'Utente giá registrato', });
-        // }
-        res.status(400).send({ message: 'Errore login', });
+        res.status(500).send({ message: 'Errore login', });
+        throw Error;
     }
-
-
 }

@@ -3,11 +3,12 @@ import cors from 'cors';
 import { mariaConnection } from './TestDatabase/TestDatabase.js';
 import { Login } from './UserArea/Login.js';
 import { SignUp } from './UserArea/SignUp.js';
+import { TestToken } from './misc/Fun.js';
 
-var app = express()
+var app = express();
 
 
-app.use(json())//specifichiamo che i messaggi verranno spediti in JSON
+app.use(json());//specifichiamo che i messaggi verranno spediti in JSON
 
 
 //https://stackoverflow.com/questions/18310394/no-access-control-allow-origin-node-apache-port-issue
@@ -38,13 +39,15 @@ app.get('/', function (req, res, next) {
     res.send({
         message: 'Questo é un test',
         token: req.headers.token
-    })
-})
+    });
+});
 
 
-app.get('/db', mariaConnection)
-app.post('/login', Login)
-app.post('/user/signup', SignUp)
+app.get('/db', mariaConnection);
+app.post('/login', Login);
+app.post('/user/signup', SignUp);
+
+app.get('/user/auth', TestToken);
 
 
 
