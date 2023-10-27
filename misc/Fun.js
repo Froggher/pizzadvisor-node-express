@@ -79,9 +79,6 @@ export async function preparePlaceFirstTime(req, res, conn) {
 async function isPlaceInserted(req, res, conn) {
     try {
         const results = await conn.query("SELECT place_id FROM `place`.`place` WHERE place_id = ?;", [req.params.place_id]);
-        console.log('results')
-        console.log(results)
-        console.log(results[0])
         if (results[0] === undefined) {
             console.log('results')
             return false;
@@ -99,7 +96,6 @@ async function isPlaceInserted(req, res, conn) {
 // Si occupa di controllare la presenza di place nel database
 async function postPlace(req, res, conn) {
     const { full_name, lat, lng, restaurant, pizza} = req.body
-    console.log('POST PLACE ATTIVATA')
     try {
         await conn.query("INSERT INTO `place`.`place` value (?,?,?,?,?,?);", [req.params.place_id, full_name, lat, lng, restaurant, pizza]);
     } catch (err) {
