@@ -1,9 +1,10 @@
 import express, { json } from 'express';
 import cors from 'cors';
 import { mariaConnection } from './TestDatabase/TestDatabase.js';
-import { Login } from './UserArea/Login.js';
+import { SignIn } from './UserArea/Login.js';
 import { SignUp } from './UserArea/SignUp.js';
 import { TestToken } from './misc/Fun.js';
+import { PostReview } from './Review/PostReview.js';
 
 var app = express();
 
@@ -44,8 +45,10 @@ app.get('/', function (req, res, next) {
 
 
 app.get('/db', mariaConnection);
-app.post('/login', Login);
+app.post('/login', SignIn);
 app.post('/user/signup', SignUp);
+
+app.post('/review/post/:place_id', PostReview);
 
 app.get('/user/auth', TestToken);
 

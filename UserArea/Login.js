@@ -4,14 +4,14 @@ import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
 import 'dotenv/config'
 
-export async function Login(req, res, next) {
+export async function SignIn(req, res, next) {
 
     // Conn deve stare fuori per chiudere la connessione
     let conn;
 
     try {
         conn = await DatabaseConnection(res, pool);
-        const results = await loginSelectDatabase(req, res, conn);
+        const results = await signInSelectDatabase(req, res, conn);
         await passordCheck(req, res, conn, results);
         tokenSign(req, res, conn, results);
     } catch (error) {
@@ -33,9 +33,15 @@ async function tokenSign(req, res, conn, results) {
             process.env.JWT_SECRET,
             { expiresIn: process.env.JWT_EXPIRES_IN }
         );
+        console.log(results)
         res.status(200).send({
             message: 'Login effettuato con successo',
-            data: token
+            user: {
+                email: results.email,
+                token: token,
+                first_name: results.first_name,
+                last_name: results.last_name,
+            }
         });
     } catch (err) {
         console.error('Errore creazione token', err);
@@ -63,7 +69,7 @@ async function passordCheck(req, res, conn, results) {
 }
 
 
-async function loginSelectDatabase(req, res, conn) {
+async function signInSelectDatabase(req, res, conn) {
     const { email, psw } = req.body
     try {
         const results = await conn.query("SELECT email, psw, first_name, last_name FROM `User`.`User` WHERE email = ?;", [email]);
