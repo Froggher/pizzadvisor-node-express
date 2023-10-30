@@ -6,6 +6,7 @@ import { SignUp } from './UserArea/SignUp.js';
 import { TestToken } from './misc/Fun.js';
 import { PostReview } from './Review/PostReview.js';
 import { GetReview } from './Review/GetReview.js';
+import { GetPlaces } from './Review/GetPlaces.js';
 
 var app = express();
 
@@ -49,6 +50,7 @@ app.get('/db', mariaConnection);
 app.post('/login', SignIn);
 app.post('/user/signup', SignUp);
 
+app.get('/places', GetPlaces)
 app.get('/review/get/:place_id', GetReview);
 app.post('/review/post/:place_id', PostReview);
 

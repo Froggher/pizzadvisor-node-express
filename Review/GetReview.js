@@ -38,7 +38,7 @@ async function ReviewGetDatabase(req, res, conn) {
             review: results
         });
     } catch (err) {
-        console.error('Errore post review', err);
+        console.error('Errore get review', err);
         res.status(500).send({ message: 'Errore nel get della review'});
         throw Error;
     }
