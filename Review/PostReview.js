@@ -1,5 +1,5 @@
 import { pool } from "../misc/config.js";
-import { DatabaseConnection, preparePlaceFirstTime, tokenAuth } from "../misc/Fun.js";
+import { DatabaseConnection, tokenAuth } from "../misc/Fun.js";
 
 
 export async function PostReview(req, res, next) {
@@ -10,7 +10,6 @@ export async function PostReview(req, res, next) {
     try {
         conn = await DatabaseConnection(res, pool);
         const decodedToken = tokenAuth(res, req)
-        await preparePlaceFirstTime(req, res, conn);
         await ReviewPostDatabase(req, res, conn, decodedToken.email);
     } catch (error) {
         console.log('Qualcosa é andato storto durante il post della review generale');

@@ -1,5 +1,5 @@
 import { pool } from "../misc/config.js";
-import { DatabaseConnection, preparePlaceFirstTime, tokenAuth } from "../misc/Fun.js";
+import { DatabaseConnection, tokenAuth } from "../misc/Fun.js";
 
 
 export async function GetReview(req, res, next) {
@@ -20,8 +20,6 @@ export async function GetReview(req, res, next) {
 }
 
 
-
-
 // Si occupa di immettere i dati utente in una tabella del db
 async function ReviewGetDatabase(req, res, conn) {
     try {
@@ -32,7 +30,6 @@ async function ReviewGetDatabase(req, res, conn) {
         ON email = email_id
         WHERE review.place_id = ?
         ORDER BY review.created ASC;`, [ req.params.place_id]);
-        console.log(results)
         res.status(201).send({
             message: 'Get reviews OK',
             review: results

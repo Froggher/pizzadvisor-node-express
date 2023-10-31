@@ -6,7 +6,10 @@ import { SignUp } from './UserArea/SignUp.js';
 import { TestToken } from './misc/Fun.js';
 import { PostReview } from './Review/PostReview.js';
 import { GetReview } from './Review/GetReview.js';
-import { GetPlaces } from './Review/GetPlaces.js';
+import { GetPlaces } from './Place/GetPlaces.js';
+import { GetDetailedPlace } from './Place/GetDetailedPlace.js';
+import { PostPlace } from './Place/PostPlace.js';
+import { CheckPlace } from './Place/CheckPlace.js';
 
 var app = express();
 
@@ -46,11 +49,16 @@ app.get('/', function (req, res, next) {
 });
 
 
+
 app.get('/db', mariaConnection);
 app.post('/login', SignIn);
 app.post('/user/signup', SignUp);
 
-app.get('/places', GetPlaces)
+app.post('/place/post', PostPlace);
+
+app.get('/places', GetPlaces);
+app.get('/place/check/:place_id', CheckPlace);
+app.get('/place/detailed/:place_id', GetDetailedPlace);
 app.get('/review/get/:place_id', GetReview);
 app.post('/review/post/:place_id', PostReview);
 
