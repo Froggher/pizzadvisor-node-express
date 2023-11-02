@@ -72,7 +72,7 @@ async function passordCheck(req, res, conn, results) {
 async function signInSelectDatabase(req, res, conn) {
     const { email, psw } = req.body
     try {
-        const results = await conn.query("SELECT email, psw, first_name, last_name FROM `User`.`User` WHERE email = ?;", [email]);
+        const results = await conn.query("SELECT email, psw, first_name, last_name FROM `user`.`user` WHERE email = ?;", [email]);
 
         // In caso il risultato della query è undefined la email non è presente nel sitema
         if (!results[0]) {

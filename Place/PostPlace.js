@@ -14,7 +14,7 @@ export async function PostPlace(req, res, next) {
             await postPlaceDatabase(req, res, conn)
         }
     } catch (error) {
-        console.log('Qualcosa é andato storto durante il post del place generale');
+        console.log('Qualcosa é andato storto durante il post del place generale',error);
     } finally {
         if (conn) return conn.end();
     }
@@ -49,7 +49,6 @@ async function isPlaceInserted(req, res, conn) {
 
 async function postPlaceDatabase(req, res, conn) {
     const { place_id, full_name, lat, lng, only_name, formatted_address, opening_hours, is_open, formatted_phone_number, website, price_level, google_rating } = req.body
-    console.log(req.body.opening_hours[0])
     try {
         await conn.query(`INSERT INTO place.place 
         (place_id, full_name, lat, lng, only_name, formatted_address,opening_hours, formatted_phone_number, website, price_level, google_rating)
