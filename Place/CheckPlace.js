@@ -5,6 +5,7 @@ export async function CheckPlace(req, res, next) {
     // Conn deve stare fuori per chiudere la connessione sul finally
     let conn;
     try {
+        console.log('check')
         conn = await DatabaseConnection(res, pool);
         await isPlaceInserted(req, res, conn);
         //res.status(200).send({ is_present: true, });

@@ -54,7 +54,7 @@ app.get('/db', mariaConnection);
 app.post('/login', SignIn);
 app.post('/user/signup', SignUp);
 
-app.post('/place/post', PostPlace);
+app.post('/place/post/', PostPlace);
 
 app.get('/places', GetPlaces);
 app.get('/place/check/:place_id', CheckPlace);

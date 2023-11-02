@@ -28,7 +28,7 @@ async function PlacesGetDatabase(req, res, conn) {
         FROM place.place
         WHERE place_id=(?);`,[req.params.place_id]);
         res.status(201).send({
-            message: 'Get detailed review OK',
+            message: 'Get detailed place OK',
             det_place: results[0]
         });
     } catch (err) {

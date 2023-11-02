@@ -7,8 +7,9 @@ export async function PostPlace(req, res, next) {
     let conn;
 
     try {
+        console.log('Qui non devo entrare')
         conn = await DatabaseConnection(res, pool);
-        const results = await isPlaceInserted(req, res, conn);
+        const results = await isPlaceInsertedPost(req, res, conn);
         //!results
         if (!results) {
             await postPlaceDatabase(req, res, conn)
@@ -26,13 +27,15 @@ export async function PostPlace(req, res, next) {
 
 
 // Si occupa di controllare la presenza di place nel database
-async function isPlaceInserted(req, res, conn) {
+async function isPlaceInsertedPost(req, res, conn) {
     try {
         const results = await conn.query("SELECT place_id FROM `place`.`place` WHERE place_id = ?;", [req.body.place_id]);
         if (results[0] === undefined) {
+            console.log('Place non aggiunto')
             return false;
+            
         } else {
-            console.log('results')
+            console.log('resultsa')
             res.status(201).send({
                 message: 'Place giá aggiunto'
             });
@@ -57,6 +60,7 @@ async function postPlaceDatabase(req, res, conn) {
             res.status(201).send({
                 message: 'Place aggiunto con successo'
             });
+            console.log("PostPlace")
     } catch (err) {
         console.error('Errore Inserimento dati place nel database', err);
         res.status(500).send({ message: 'Errore nel trascrivere i dati nel database del locale', });
