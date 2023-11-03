@@ -41,6 +41,7 @@ async function tokenSign(req, res, conn, results) {
                 token: token,
                 first_name: results.first_name,
                 last_name: results.last_name,
+                follows: results.follows,
             }
         });
     } catch (err) {

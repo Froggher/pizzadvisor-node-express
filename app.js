@@ -10,6 +10,10 @@ import { GetPlaces } from './Place/GetPlaces.js';
 import { GetDetailedPlace } from './Place/GetDetailedPlace.js';
 import { PostPlace } from './Place/PostPlace.js';
 import { CheckPlace } from './Place/CheckPlace.js';
+import { CheckFollow } from './Follow/CheckFollow.js';
+import { PostFollow } from './Follow/PostFollow.js';
+import { DeleteFollow } from './Follow/DeleteFollow.js';
+import { GetFollows } from './Follow/GetFollows.js';
 
 var app = express();
 
@@ -57,6 +61,10 @@ app.post('/user/signup', SignUp);
 app.post('/place/post/', PostPlace);
 
 app.get('/places', GetPlaces);
+app.get('/follow/check/:place_id', CheckFollow);
+app.get('/follow/get', GetFollows);
+app.post('/follow/post', PostFollow);
+app.delete('/follow/delete', DeleteFollow);
 app.get('/place/check/:place_id', CheckPlace);
 app.get('/place/detailed/:place_id', GetDetailedPlace);
 app.get('/review/get/:place_id', GetReview);

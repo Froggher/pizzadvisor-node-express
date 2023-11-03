@@ -42,7 +42,7 @@ async function PasswordHashing(req, res, conn) {
 async function SignUpInsert(req, res, conn, hashedPassword) {
     const { email, psw, first_name, last_name } = req.body;
     try {
-        await conn.query("INSERT INTO `user`.`user` value (?,?,?,?);", [email, hashedPassword, first_name, last_name]);
+        await conn.query("INSERT INTO `user`.`user` value (?,?,?,?,?);", [email, hashedPassword, first_name, last_name, null]);
         //console.log(results)
         res.status(201).send({
             message: 'Account creato con successo'
