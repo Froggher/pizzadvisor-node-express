@@ -14,6 +14,7 @@ import { CheckFollow } from './Follow/CheckFollow.js';
 import { PostFollow } from './Follow/PostFollow.js';
 import { DeleteFollow } from './Follow/DeleteFollow.js';
 import { GetFollows } from './Follow/GetFollows.js';
+import { DeleteReview } from './Review/DeleteReview.js';
 
 var app = express();
 
@@ -69,6 +70,7 @@ app.get('/place/check/:place_id', CheckPlace);
 app.get('/place/detailed/:place_id', GetDetailedPlace);
 app.get('/review/get/:place_id', GetReview);
 app.post('/review/post/:place_id', PostReview);
+app.delete('/review/delete', DeleteReview);
 
 app.get('/user/auth', TestToken);
 

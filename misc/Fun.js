@@ -37,6 +37,29 @@ export function tokenAuth(res, req) {
     }
 }
 
+// Verifica se l'utente é un moderatore
+export async function isModCheck(res, req, email, conn) {
+    console.log('results')
+    try {
+        const results = await conn.query("SELECT is_mod FROM `user`.`user` WHERE email = ?;", [email]);
+
+        console.log('results')
+        console.log(results)
+        if (!results[0]) {
+            res.status(400).send({ message: 'Non si hanno i permessi necessari per effettuare questa azione', });
+            throw Error;
+        }
+
+    } catch (err) {
+        console.error('Errore di verifica controllo moderatore', err);
+        res.status(500).send({ message: 'Errore di verifica controllo moderatore', });
+        throw Error;
+    }
+}
+
+
+
+
 export async function TestToken(req, res, next) {
     let conn;
     try {

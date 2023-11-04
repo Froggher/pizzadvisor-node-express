@@ -24,12 +24,13 @@ export async function GetReview(req, res, next) {
 async function ReviewGetDatabase(req, res, conn) {
     try {
         console.log("NANI")
-        const results = await conn.query(`SELECT user.first_name, user.last_name, review.review_object, review.review_body, review.created, review.modified
+        const results = await conn.query(`SELECT user.first_name, user.last_name, review.review_id, review.review_object, review.review_body, review.created
         FROM user.user
         LEFT JOIN place.review
         ON email = email_id
         WHERE review.place_id = ?
         ORDER BY review.created ASC;`, [ req.params.place_id]);
+
         res.status(201).send({
             message: 'Get reviews OK',
             review: results

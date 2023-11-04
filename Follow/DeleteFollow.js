@@ -11,7 +11,7 @@ export async function DeleteFollow(req, res, next) {
         await deleteFollow(req, res, conn, decodedToken.email);
         //res.status(200).send({ is_present: true, });
     } catch (error) {
-        console.log('Qualcosa é andato storto nel check del post follow nel db generale')
+        console.log('Qualcosa é andato storto nel delete del post follow nel db generale')
         throw Error;
     } finally {
         if (conn) return conn.end();
@@ -32,8 +32,8 @@ async function deleteFollow(req, res, conn, email) {
         res.status(200).send({ message: 'Follow Deleted' });
 
     } catch (err) {
-        console.error('Qualcosa é andato storto nel check del post follow nel db', err);
-        res.status(500).send({ message: 'Qualcosa é andato storto nel check del post follow nel db', });
+        console.error('Qualcosa é andato storto del delete follow nel db', err);
+        res.status(500).send({ message: 'Qualcosa é andato storto nel delete del post follow nel db', });
         throw Error;
     }
 }
