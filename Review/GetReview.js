@@ -9,7 +9,6 @@ export async function GetReview(req, res, next) {
 
     try {
         conn = await DatabaseConnection(res, pool);
-        console.log("NANIRPIMA")
         await ReviewGetDatabase(req, res, conn);
     } catch (error) {
         console.log('Qualcosa é andato storto durante il get della review generale');
@@ -23,7 +22,6 @@ export async function GetReview(req, res, next) {
 // Si occupa di immettere i dati utente in una tabella del db
 async function ReviewGetDatabase(req, res, conn) {
     try {
-        console.log("NANI")
         const results = await conn.query(`SELECT user.first_name, user.last_name, review.review_id, review.review_object, review.review_body, review.created
         FROM user.user
         LEFT JOIN place.review

@@ -21,7 +21,7 @@ export async function GetPlaces(req, res, next) {
 
 
 
-// Si occupa di immettere i dati utente in una tabella del db
+// Si occupa di ricevere i dati per i markers dal database
 async function PlacesGetDatabase(req, res, conn) {
     try {
         const results = await conn.query(`SELECT place_id, full_name, lat, lng

@@ -5,7 +5,6 @@ export async function CheckPlace(req, res, next) {
     // Conn deve stare fuori per chiudere la connessione sul finally
     let conn;
     try {
-        console.log('check')
         conn = await DatabaseConnection(res, pool);
         await isPlaceInserted(req, res, conn);
         //res.status(200).send({ is_present: true, });
@@ -25,10 +24,8 @@ async function isPlaceInserted(req, res, conn) {
     try {
         const results = await conn.query("SELECT place_id FROM place.place WHERE place_id = ?;", [req.params.place_id]);
         if (results[0] === undefined) {
-            console.log('chek false')
             res.status(200).send({ is_present: false, });
         } else {
-            console.log('chek true')
             res.status(200).send({ is_present: true, });
         }
     } catch (err) {

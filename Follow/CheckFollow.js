@@ -27,10 +27,8 @@ async function isFollowInserted(req, res, conn, email) {
             FROM user.follow
             WHERE place_id = ? AND email_id = ?;`, [req.params.place_id, email]);
         if (results[0] === undefined) {
-            console.log('chek follow false')
             res.status(200).send({ is_present: false, });
         } else {
-            console.log('chek follow true')
             res.status(200).send({ is_present: true, });
         }
     } catch (err) {

@@ -22,6 +22,26 @@ export async function SignIn(req, res, next) {
 
 
 }
+/* Inziamo prendendo i dati dell'utente */
+async function signInSelectDatabase(req, res, conn) {
+    const { email, psw } = req.body
+    try {
+        const results = await conn.query("SELECT email, psw, first_name, last_name, is_mod FROM `user`.`user` WHERE email = ?;", [email]);
+
+        // In caso il risultato della query è undefined la email non è presente nel sistema
+        if (!results[0]) {
+            res.status(400).send({ message: 'Email non trovata, effettuare prima la registrazione', });
+            throw Error;
+        }
+        return results[0]
+    } catch (err) {
+        console.error('Errore login:', err);
+        res.status(500).send({ message: 'Errore login', });
+        throw Error;
+    }
+}
+
+
 
 async function tokenSign(req, res, conn, results) {
     try {
@@ -33,7 +53,7 @@ async function tokenSign(req, res, conn, results) {
             process.env.JWT_SECRET,
             { expiresIn: process.env.JWT_EXPIRES_IN }
         );
-        console.log(results)
+        /* Inviamo il token all'utente */
         res.status(200).send({
             message: 'Login effettuato con successo',
             user: {
@@ -70,21 +90,3 @@ async function passordCheck(req, res, conn, results) {
     }
 }
 
-
-async function signInSelectDatabase(req, res, conn) {
-    const { email, psw } = req.body
-    try {
-        const results = await conn.query("SELECT email, psw, first_name, last_name, is_mod FROM `user`.`user` WHERE email = ?;", [email]);
-
-        // In caso il risultato della query è undefined la email non è presente nel sitema
-        if (!results[0]) {
-            res.status(400).send({ message: 'Email non trovata, effettuare prima la registrazione', });
-            throw Error;
-        }
-        return results[0]
-    } catch (err) {
-        console.error('Errore login:', err);
-        res.status(500).send({ message: 'Errore login', });
-        throw Error;
-    }
-}

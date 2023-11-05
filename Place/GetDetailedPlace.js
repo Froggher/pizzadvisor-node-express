@@ -21,7 +21,7 @@ export async function GetDetailedPlace(req, res, next) {
 
 
 
-// Si occupa di immettere i dati utente in una tabella del db
+// Si occupa di prendere i dati del singolo place per la vista dettagliata del place
 async function PlacesGetDatabase(req, res, conn) {
     try {
         const results = await conn.query(`SELECT *

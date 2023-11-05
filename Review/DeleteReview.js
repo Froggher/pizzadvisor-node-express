@@ -23,7 +23,7 @@ export async function DeleteReview(req, res, next) {
 }
 
 
-// Si occupa di eliminare i follow dai database
+// Si occupa di eliminare i follow dai database utilizzando review_id
 async function deleteReview(req, res, conn, email) {
     try {
         const results = await conn.query(

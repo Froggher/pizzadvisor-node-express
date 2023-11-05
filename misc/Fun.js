@@ -13,20 +13,10 @@ export async function DatabaseConnection(res, pool) {
         throw Error;
     }
 }
-// export async function TokenAuth(res) {
-//     try {
-//         const decodedToken = tokenVerify(res, req);
-//         console.log(decodedToken);
-//     } catch (err) {
-//         console.error('Errore di autenticazione da parte del server', err);
-//         res.status(500).send({ message: 'Errore di autenticazione da parte del server', });
-//         throw Error;
-//     }
-// }
+
 
 // Verifica l'autenticitá di un token
 export function tokenAuth(res, req) {
-    console.log(req.headers.token)
     try {
         const decodedToken = jwt.verify(req.headers.token, process.env.JWT_SECRET);
         return decodedToken;
@@ -39,12 +29,8 @@ export function tokenAuth(res, req) {
 
 // Verifica se l'utente é un moderatore
 export async function isModCheck(res, req, email, conn) {
-    console.log('results')
     try {
         const results = await conn.query("SELECT is_mod FROM `user`.`user` WHERE email = ?;", [email]);
-
-        console.log('results')
-        console.log(results)
         if (!results[0]) {
             res.status(400).send({ message: 'Non si hanno i permessi necessari per effettuare questa azione', });
             throw Error;
@@ -56,6 +42,11 @@ export async function isModCheck(res, req, email, conn) {
         throw Error;
     }
 }
+
+
+
+
+
 
 
 

@@ -54,25 +54,29 @@ app.get('/', function (req, res, next) {
 });
 
 
-
+/* UserArea routes */
 app.get('/db', mariaConnection);
 app.post('/login', SignIn);
 app.post('/user/signup', SignUp);
+app.get('/user/auth', TestToken);
 
-app.post('/place/post/', PostPlace);
-
-app.get('/places', GetPlaces);
+/* Follow routes */
 app.get('/follow/check/:place_id', CheckFollow);
 app.get('/follow/get', GetFollows);
 app.post('/follow/post', PostFollow);
 app.delete('/follow/delete', DeleteFollow);
+
+/* Place routes */
+app.get('/places', GetPlaces);
 app.get('/place/check/:place_id', CheckPlace);
 app.get('/place/detailed/:place_id', GetDetailedPlace);
+app.post('/place/post/', PostPlace);
+
+/* Review routes */
 app.get('/review/get/:place_id', GetReview);
 app.post('/review/post/:place_id', PostReview);
 app.delete('/review/delete', DeleteReview);
 
-app.get('/user/auth', TestToken);
 
 
 

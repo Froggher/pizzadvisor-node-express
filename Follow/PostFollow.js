@@ -21,7 +21,7 @@ export async function PostFollow(req, res, next) {
 }
 
 
-// Si occupa di controllare la presenza dei follow nel database
+// Si occupa di inserire il follow nel database
 async function insertFollow(req, res, conn, email) {
     try {
         const results = await conn.query(`INSERT INTO user.follow

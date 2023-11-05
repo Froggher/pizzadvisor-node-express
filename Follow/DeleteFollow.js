@@ -5,7 +5,6 @@ export async function DeleteFollow(req, res, next) {
     // Conn deve stare fuori per chiudere la connessione sul finally
     let conn;
     try {
-        console.log('Qualcos')
         conn = await DatabaseConnection(res, pool);
         const decodedToken = tokenAuth(res, req)
         await deleteFollow(req, res, conn, decodedToken.email);
