@@ -20,7 +20,7 @@ export async function CheckFollow(req, res, next) {
 }
 
 
-// Si occupa di controllare la presenza dei follow nel database
+// Si occupa di controllare la presenza dei follow nel database tramite place_id e email
 async function isFollowInserted(req, res, conn, email) {
     try {
         const results = await conn.query(`SELECT id_follow, email_id, place_id
