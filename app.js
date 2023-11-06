@@ -15,6 +15,7 @@ import { PostFollow } from './Follow/PostFollow.js';
 import { DeleteFollow } from './Follow/DeleteFollow.js';
 import { GetFollows } from './Follow/GetFollows.js';
 import { DeleteReview } from './Review/DeleteReview.js';
+import { PatchPlace } from './Place/PatchPlace.js';
 
 var app = express();
 
@@ -71,6 +72,7 @@ app.get('/places', GetPlaces);
 app.get('/place/check/:place_id', CheckPlace);
 app.get('/place/detailed/:place_id', GetDetailedPlace);
 app.post('/place/post/', PostPlace);
+app.patch('/place/patch/', PatchPlace);
 
 /* Review routes */
 app.get('/review/get/:place_id', GetReview);
